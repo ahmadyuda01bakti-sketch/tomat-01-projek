@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TABO — Toko Minuman Bersoda, Drajat Cirebon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #142524;
+    --bg-raised: #1b302e;
+    --line: rgba(245,239,224,0.14);
+    --ink: #F5EFE0;
+    --ink-dim: rgba(245,239,224,0.62);
+    --lime: #CFE93B;
+    --lime-ink: #1c2b0f;
+    --guava: #E4573F;
+    --teal-soft: #2E4A47;
+    --shadow: rgba(0,0,0,0.35);
+  }
+  :root:not([data-theme="light"]) {
+    /* dark is default, nothing to override */
+  }
+  :root[data-theme="light"]{
+    --bg: #EFEAD9;
+    --bg-raised: #FBF8EE;
+    --line: rgba(20,37,36,0.14);
+    --ink: #16241F;
+    --ink-dim: rgba(22,36,31,0.62);
+    --lime-ink: #16241F;
+    --teal-soft: #d9dfba;
+    --shadow: rgba(20,37,36,0.12);
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg: #EFEAD9;
+      --bg-raised: #FBF8EE;
+      --line: rgba(20,37,36,0.14);
+      --ink: #16241F;
+      --ink-dim: rgba(22,36,31,0.62);
+      --lime-ink: #16241F;
+      --teal-soft: #d9dfba;
+      --shadow: rgba(20,37,36,0.12);
+    }
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  a{color:inherit;}
+
+  .display{
+    font-family:'Archivo Black', sans-serif;
+    letter-spacing:-0.01em;
+    line-height:0.98;
+  }
+  .serif{
+    font-family:'Fraunces', serif;
+  }
+
+  /* ---- Shell ---- */
+  .shell{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  header.topbar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:920px;
+    margin:0 auto;
+    padding:16px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .brand{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    text-decoration:none;
+  }
+  .brand-mark{
+    font-size:22px;
+    color:var(--ink);
+  }
+  .brand-sub{
+    font-size:12px;
+    color:var(--ink-dim);
+    font-family:'Inter',sans-serif;
+  }
+  nav.tabs{
+    display:flex;
+    gap:4px;
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:4px;
+  }
+  nav.tabs button{
+    appearance:none;
+    border:none;
+    background:transparent;
+    color:var(--ink-dim);
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    font-weight:600;
+    padding:8px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background .25s ease, color .25s ease;
+  }
+  nav.tabs button.active{
+    background:var(--lime);
+    color:var(--lime-ink);
+  }
+  nav.tabs button:not(.active):hover{
+    color:var(--ink);
+  }
+
+  main{
+    padding-bottom:80px;
+  }
+  section.page{
+    display:none;
+  }
+  section.page.active{
+    display:block;
+    animation:rise .5s ease both;
+  }
+  @keyframes rise{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    section.page.active{animation:none;}
+  }
+
+  /* ---- Ringkasan / hero ---- */
+  .hero{
+    padding:56px 0 40px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-top{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:28px;
+  }
+  .hero-title{
+    font-size:clamp(48px, 11vw, 96px);
+  }
+  .status-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink);
+    padding:6px 12px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  .status-dot{
+    width:8px;height:8px;border-radius:50%;
+    background:#7FD858;
+    flex:none;
+  }
+  .hero-tagline{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:clamp(19px,3vw,24px);
+    color:var(--ink-dim);
+    max-width:34ch;
+    margin:0 0 28px;
+  }
+  .stat-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(140px,1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .stat{
+    background:var(--bg-raised);
+    padding:18px 20px;
+  }
+  .stat-value{
+    font-family:'Fraunces', serif;
+    font-size:28px;
+    font-weight:600;
+  }
+  .stat-label{
+    font-size:12.5px;
+    color:var(--ink-dim);
+    margin-top:2px;
+  }
+
+  .quotes{
+    padding:44px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .section-head{
+    font-size:14px;
+    color:var(--ink-dim);
+    margin-bottom:18px;
+  }
+  .quote-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:16px;
+  }
+  .quote-card{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px;
+  }
+  .quote-card p{
+    font-family:'Fraunces', serif;
+    font-size:17px;
+    line-height:1.45;
+    margin:0;
+  }
+  .quote-card p::before{content:"“";}
+  .quote-card p::after{content:"”";}
+
+  .info-block{
+    padding:44px 0 56px;
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:40px;
+  }
+  @media (max-width:640px){
+    .info-block{grid-template-columns:1fr;}
+  }
+  .info-block h3{
+    font-family:'Fraunces', serif;
+    font-size:20px;
+    margin:0 0 10px;
+  }
+  .info-block p{
+    color:var(--ink-dim);
+    line-height:1.6;
+    margin:0 0 18px;
+    font-size:15px;
+  }
+  .hours-list{
+    list-style:none;
+    padding:0;
+    margin:0;
+    font-size:14.5px;
+  }
+  .hours-list li{
+    display:flex;
+    justify-content:space-between;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+    color:var(--ink-dim);
+  }
+  .hours-list li.today{
+    color:var(--ink);
+    font-weight:600;
+  }
+  .route-note{
+    display:block;
+    margin-top:18px;
+    font-size:13.5px;
+    color:var(--ink-dim);
+  }
+
+  /* ---- Menu ---- */
+  .menu-head{
+    padding:52px 0 8px;
+  }
+  .menu-head h1{
+    font-size:clamp(38px,7vw,56px);
+  }
+  .menu-head p{
+    color:var(--ink-dim);
+    max-width:44ch;
+    font-size:15px;
+    line-height:1.6;
+    margin-top:14px;
+  }
+  .menu-category{
+    padding:34px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .menu-category:last-child{border-bottom:none;}
+  .menu-category-title{
+    font-family:'Fraunces', serif;
+    font-size:22px;
+    margin:0 0 4px;
+  }
+  .menu-category-desc{
+    color:var(--ink-dim);
+    font-size:13.5px;
+    margin:0 0 18px;
+  }
+  .menu-items{
+    display:flex;
+    flex-direction:column;
+  }
+  .menu-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:16px;
+    padding:14px 0;
+    border-top:1px solid var(--line);
+  }
+  .menu-category .menu-items .menu-item:first-child{border-top:none;}
+  .menu-item-name{
+    font-size:16px;
+    font-weight:600;
+  }
+  .menu-item-note{
+    font-size:13px;
+    color:var(--ink-dim);
+    display:block;
+    margin-top:3px;
+    font-weight:400;
+  }
+  .menu-item-price{
+    font-family:'Fraunces', serif;
+    font-size:15px;
+    white-space:nowrap;
+    color:var(--ink-dim);
+  }
+  .menu-foot{
+    padding:32px 0 8px;
+    color:var(--ink-dim);
+    font-size:13.5px;
+  }
+
+  /* ---- Ulasan ---- */
+  .review-head{
+    padding:52px 0 32px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:36px;
+    align-items:flex-end;
+    border-bottom:1px solid var(--line);
+  }
+  .review-score{
+    font-family:'Fraunces', serif;
+    font-size:64px;
+  }
+  .review-score-sub{
+    color:var(--ink-dim);
+    font-size:14px;
+    margin-top:2px;
+  }
+  .bars{
+    flex:1;
+    min-width:220px;
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+  }
+  .bar-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:12.5px;
+    color:var(--ink-dim);
+  }
+  .bar-track{
+    flex:1;
+    height:6px;
+    background:var(--bg-raised);
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    background:var(--lime);
+    border-radius:3px;
+  }
+  .keyword-row{
+    padding:24px 0 8px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .keyword-pill{
+    font-size:13px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:6px 13px;
+    color:var(--ink-dim);
+  }
+  .keyword-pill b{color:var(--ink); font-weight:600;}
+  .review-list{
+    padding:20px 0 8px;
+    display:flex;
+    flex-direction:column;
+  }
+  .review-card{
+    padding:26px 0;
+    border-top:1px solid var(--line);
+  }
+  .review-card:first-child{border-top:none;}
+  .review-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:10px;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .reviewer{
+    font-weight:600;
+    font-size:15px;
+  }
+  .review-sub{
+    font-size:12.5px;
+    color:var(--ink-dim);
+  }
+  .review-body{
+    font-family:'Fraunces', serif;
+    font-size:16.5px;
+    line-height:1.55;
+    margin:0;
+    color:var(--ink);
+  }
+  .tag-guava{color:var(--guava); font-weight:600;}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:28px 24px 40px;
+    text-align:center;
+    color:var(--ink-dim);
+    font-size:13px;
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#ringkasan" data-nav="ringkasan">
+      <span class="brand-mark display">TABO</span>
+      <span class="brand-sub">Drajat, Cirebon</span>
+    </a>
+    <nav class="tabs" aria-label="Halaman">
+      <button data-nav="ringkasan" class="active">Ringkasan</button>
+      <button data-nav="menu">Menu</button>
+      <button data-nav="ulasan">Ulasan</button>
+    </nav>
+  </div>
+</header>
+
+<main class="shell">
+
+  <!-- PAGE 1: RINGKASAN -->
+  <section id="ringkasan" class="page active">
+    <div class="hero">
+      <div class="hero-top">
+        <h1 class="hero-title display">TABO</h1>
+        <span class="status-badge"><span class="status-dot"></span>Buka sekarang · tutup 00.00</span>
+      </div>
+      <p class="hero-tagline">Toko minuman bersoda dan es kekinian di pinggir lapangan bola Drajat — tempat nongkrong warga sekitar sebelum dan sesudah kerja.</p>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-value">4,6 ★</div>
+          <div class="stat-label">dari 451 ulasan</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">Rp1–25rb</div>
+          <div class="stat-label">rata-rata per orang</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">3 cara</div>
+          <div class="stat-label">makan di tempat · bawa pulang · pesan antar</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quotes">
+      <div class="section-head">Yang paling sering disebut pengunjung</div>
+      <div class="quote-grid">
+        <div class="quote-card"><p>Best favorite: es kopi susu legit + es coklat legit.</p></div>
+        <div class="quote-card"><p>Lokasi di jalan lapang bola Drajat, samping Alfamart.</p></div>
+        <div class="quote-card"><p>Tempat nongkrong paling deket sama tempat kerja.</p></div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <div>
+        <h3>Alamat</h3>
+        <p>Gg. Lapang Bola No.182, RT.004/RW.004, Drajat, Kec. Kesambi, Kota Cirebon, Jawa Barat 45133</p>
+        <h3>Kode plus code</h3>
+        <p>7H96+G4 Drajat, Kota Cirebon, Jawa Barat</p>
+        <span class="route-note">Buka Google Maps dan cari "TABO Drajat Cirebon" untuk mengambil rute langsung.</span>
+      </div>
+      <div>
+        <h3>Jam ramai — Rabu</h3>
+        <ul class="hours-list">
+          <li><span>06.00 – 09.00</span><span>Sepi</span></li>
+          <li><span>09.00 – 15.00</span><span>Sedikit sibuk</span></li>
+          <li class="today"><span>15.00 – 18.00</span><span>Ramai</span></li>
+          <li><span>18.00 – 21.00</span><span>Sedikit sibuk</span></li>
+          <li><span>21.00 – 00.00</span><span>Sepi</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 2: MENU -->
+  <section id="menu" class="page">
+    <div class="menu-head">
+      <h1 class="display">Menu</h1>
+      <p>Susunan minuman berdasarkan yang paling sering disebut di ulasan pengunjung. Harga per gelas berkisar dalam rentang Rp1.000–Rp25.000 yang dilaporkan pelanggan.</p>
+    </div>
+
+    <div class="menu-category">
+      <h3 class="menu-category-title serif">Es Legit</h3>
+      <p class="menu-category-desc">Favorit yang paling banyak disebut pengunjung</p>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div><span class="menu-item-name">Es Kopi Susu Legit</span><span class="menu-item-note">Yang paling sering direkomendasikan</span></div>
+          <div class="menu-item-price">Rp1rb–25rb</div>
+        </div>
+        <div class="menu-item">
+          <div><span class="menu-item-name">Es Coklat Legit</span><span class="menu-item-note">Sepasang favorit dengan kopi susu di atas</span></div>
+          <div class="menu-item-price">Rp1rb–25rb</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-category">
+      <h3 class="menu-category-title serif">Thai Tea</h3>
+      <p class="menu-category-desc">Perhatikan varian saat memesan — dua rasa sering tertukar</p>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div><span class="menu-item-name">Green Thai Tea</span><span class="menu-item-note">Beda dari Green Tea Ori — sebutkan jelas saat memesan</span></div>
+          <div class="menu-item-price">Rp1rb–25rb</div>
+        </div>
+        <div class="menu-item">
+          <div><span class="menu-item-name">Green Tea Ori</span></div>
+          <div class="menu-item-price">Rp1rb–25rb</div>
+        </div>
+        <div class="menu-item">
+          <div><span class="menu-item-name">Thai Tea Original</span></div>
+          <div class="menu-item-price">Rp1rb–25rb</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-category">
+      <h3 class="menu-category-title serif">Susu & Milo</h3>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div><span class="menu-item-name">Es Milo</span></div>
+          <div class="menu-item-price">Rp1rb–25rb</div>
+        </div>
+        <div class="menu-item">
+          <div><span class="menu-item-name">Teh Susu</span></div>
+          <div class="menu-item-price">Rp1rb–25rb</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-category">
+      <h3 class="menu-category-title serif">Bakaran</h3>
+      <p class="menu-category-desc">Menu tambahan selain minuman</p>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div><span class="menu-item-name">Sosis Bakar</span><span class="menu-item-note">Beberapa pengunjung minta tingkat kematangan dicek ulang sebelum dikirim</span></div>
+          <div class="menu-item-price">Rp1rb–25rb</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="menu-foot">Menu lengkap dan foto tersedia di halaman Google Maps toko. Harga di atas adalah kisaran yang dilaporkan pelanggan, bukan daftar harga resmi.</p>
+  </section>
+
+  <!-- PAGE 3: ULASAN -->
+  <section id="ulasan" class="page">
+    <div class="review-head">
+      <div>
+        <div class="review-score serif">4,6</div>
+        <div class="review-score-sub">451 ulasan Google</div>
+      </div>
+      <div class="bars">
+        <div class="bar-row"><span>5</span><div class="bar-track"><div class="bar-fill" style="width:78%"></div></div></div>
+        <div class="bar-row"><span>4</span><div class="bar-track"><div class="bar-fill" style="width:12%"></div></div></div>
+        <div class="bar-row"><span>3</span><div class="bar-track"><div class="bar-fill" style="width:5%"></div></div></div>
+        <div class="bar-row"><span>2</span><div class="bar-track"><div class="bar-fill" style="width:2%"></div></div></div>
+        <div class="bar-row"><span>1</span><div class="bar-track"><div class="bar-fill" style="width:3%"></div></div></div>
+      </div>
+    </div>
+
+    <div class="keyword-row">
+      <span class="keyword-pill"><b>9</b> harga</span>
+      <span class="keyword-pill"><b>8</b> thai tea</span>
+      <span class="keyword-pill"><b>8</b> menu</span>
+      <span class="keyword-pill"><b>6</b> milo</span>
+    </div>
+
+    <div class="review-list">
+      <div class="review-card">
+        <div class="review-meta">
+          <span class="reviewer">Foni Mutiara</span>
+          <span class="review-sub">3 ulasan · 7 bulan lalu</span>
+        </div>
+        <p class="review-body">Udah beberapa kali pesan TABO — hari ini pesan sosis bakar, tapi sosisnya <span class="tag-guava">gosong</span>. Minta dicek lagi sebelum dikirim ke pelanggan.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-meta">
+          <span class="reviewer">Sella Puji</span>
+          <span class="review-sub">4 ulasan · 2 bulan lalu</span>
+        </div>
+        <p class="review-body">Menyebut sikap karyawan yang <span class="tag-guava">kurang sopan</span> ke pelanggan, dan mengatakan teman-temannya mengalami hal serupa.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-meta">
+          <span class="reviewer">Renn.</span>
+          <span class="review-sub">2 ulasan · 4 bulan lalu</span>
+        </div>
+        <p class="review-body">Kembali ke TABO setelah lama, tapi kaget dengan kasir yang <span class="tag-guava">cuek</span> — pesanan dan bukti pembayaran tidak direspons, sementara pelanggan yang datang lebih baru justru dilayani duluan.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Dibuat dari data listing publik TABO, Gg. Lapang Bola No.182, Drajat, Kesambi, Kota Cirebon.
+</footer>
+
+<script>
+  function goTo(name){
+    document.querySelectorAll('.page').forEach(function(p){
+      p.classList.toggle('active', p.id === name);
+    });
+    document.querySelectorAll('nav.tabs button').forEach(function(b){
+      b.classList.toggle('active', b.dataset.nav === name);
+    });
+    history.replaceState(null, '', '#' + name);
+  }
+  document.querySelectorAll('[data-nav]').forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      goTo(el.dataset.nav);
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+  var initial = (location.hash || '#ringkasan').slice(1);
+  if(['ringkasan','menu','ulasan'].indexOf(initial) === -1) initial = 'ringkasan';
+  goTo(initial);
+</script>
+
+</body>
+</html>
